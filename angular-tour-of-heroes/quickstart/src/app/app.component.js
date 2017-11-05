@@ -9,13 +9,14 @@ var core_1 = require("@angular/core");
 var AppComponent = (function () {
     function AppComponent() {
         this.name = 'Angular';
+        this.title = 'Windstorm';
     }
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "<h1>Hello {{name}}</h1>",
+        template: "<h1>{{title}}</h1><h2>Hello {{name}}</h2>",
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
