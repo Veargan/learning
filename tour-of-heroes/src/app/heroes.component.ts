@@ -12,8 +12,16 @@ import { HeroService } from './hero.service';
         <a routerLink="/detail/{{hero.id}}">
           <span class="badge">{{hero.id}}</span> {{hero.name}}
         </a>
+        <button class="delete" title="delete hero"
+        (click)="deleteHero(hero)">x</button>
       </li>
     </ul>
+    <div>
+      <label>Hero name:
+        <input #heroName />
+      </label>
+      <button (click)="addHero(heroName.value); heroName.value=''">add</button>
+    </div>
   `,
   styles: [`
     .heroes {
@@ -62,6 +70,25 @@ import { HeroService } from './hero.service';
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
+    .button {
+      background-color: #eee;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      cursor: hand;
+      font-family: Arial;
+    }
+    button:hover {
+      background-color: #cfd8dc;
+    }
+    button.delete {
+      position: relative;
+      left: 194px;
+      top: -32px;
+      background-color: gray !important;
+      color: white;
+    }
   `],
   providers: [HeroService]
 })
@@ -78,6 +105,20 @@ export class HeroesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeroes();
+  }
+
+  addHero(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  deleteHero(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero).subscribe();
   }
 
   getHeroes(): void {
